@@ -15,15 +15,16 @@ public class CommandLineManager : MonoBehaviour
     public float currentCooldown;
 
     // References
-    [SerializeField] private TMP_InputField _cliInputField;
-    [SerializeField] private TMP_Text _cliOutputField;
-    [SerializeField] private ScrollRect _cliScrollRect;
+    public TMP_InputField cliInputField;
+    public TMP_Text cliOutputField;
+    public ScrollRect cliScrollRect;
 
 
     // Register commands here
     public Dictionary<string, GameCommand> allGameCommands = new() {
         {"help", new CMD_Help() },
         {"helloworld", new CMD_HelloWorld()},
+        {"cls", new CMD_ClearScreen()},
         
     };
 
@@ -47,6 +48,8 @@ public class CommandLineManager : MonoBehaviour
         {
             LoadCommand(key);
         }
+
+
     }
 
   
@@ -61,6 +64,13 @@ public class CommandLineManager : MonoBehaviour
 
     public void Update()
     {
+
+        // TODO: Remove this once ui raycast is back in
+        if (!cliInputField.isFocused)
+        {
+            cliInputField.ActivateInputField();
+        }
+
         if(currentCooldown > 0)
         {
             currentCooldown -= Time.deltaTime;
@@ -69,9 +79,7 @@ public class CommandLineManager : MonoBehaviour
         {
             if(commandQueue.Count > 0)
             {
-                GameCommand curCommand = commandQueue.Dequeue();
-                
-                curCommand.Execute();
+                ExecuteNextCommand();
             }
         }
 
@@ -79,9 +87,9 @@ public class CommandLineManager : MonoBehaviour
         // Submit input line
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            OnLineSubmitted(_cliInputField.text);
-            _cliInputField.text = "";
-            _cliInputField.ActivateInputField();
+            OnLineSubmitted(cliInputField.text);
+            cliInputField.text = "";
+            cliInputField.ActivateInputField();
         }
     }
 
@@ -91,19 +99,31 @@ public class CommandLineManager : MonoBehaviour
         if (string.IsNullOrEmpty(line)) return;
 
         string[] args = line.Split(' ');
-        args[0] = args[0].ToLower();
+        string commandStrLower = args[0].ToLower();
         GameCommand command;
 
-        if (!commandDict.ContainsKey(args[0]))
+        if (!commandDict.ContainsKey(commandStrLower))
         {
-            command = new CMD_NotFound();
+            command = new CMD_NotFound(args);
         } else
         {
-            command = commandDict[args[0]].instantiate();
+            command = commandDict[commandStrLower].instantiate(args);
         }
 
-        command.SetArgs(args);
         commandQueue.Enqueue(command);
+    }
+
+    public void ExecuteNextCommand()
+    {
+        GameCommand curCommand = commandQueue.Dequeue();
+        string inString = ">";
+        foreach(string arg in curCommand.args)
+        {
+            inString += " " + arg;
+        }
+
+        PrintMessage(inString);
+        curCommand.Execute();
     }
 
     public void ScrollOutputToBottom()
@@ -114,19 +134,19 @@ public class CommandLineManager : MonoBehaviour
     private IEnumerator ScrollOutputToBottomCoroutine()
     {
         yield return 0;
-        _cliScrollRect.normalizedPosition = Vector2.zero;
+        cliScrollRect.normalizedPosition = Vector2.zero;
     }
 
 
     public static void PrintMessage(string message)
     {
         // Make sure we don't go over the TMP character limit
-        if(instance._cliOutputField.text.Length > 20_000)
+        if(instance.cliOutputField.text.Length > 20_000)
         {
-            instance._cliOutputField.text = instance._cliOutputField.text.Substring(10_000);
+            instance.cliOutputField.text = instance.cliOutputField.text.Substring(10_000);
         }
 
-        instance._cliOutputField.text += '\n' + message;
+        instance.cliOutputField.text += '\n' + message;
         instance.ScrollOutputToBottom();
     }
 }

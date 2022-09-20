@@ -5,17 +5,27 @@ using UnityEngine;
 public class CMD_NotFound : GameCommand
 {
     public float cooldownTime => 0;
+    public string[] args { get; private set; }
 
-    private string commandName;
-
-    public GameCommand instantiate()
+    public CMD_NotFound()
     {
-        return new CMD_NotFound();
+        args = new string[]{ "notfound"};
+    }
+
+    public CMD_NotFound(string[] args)
+    {
+        this.args = args;
+    }
+
+
+    public GameCommand instantiate(string[] args)
+    {
+        return new CMD_NotFound(args);
     }
 
     public int Execute()
     {
-        CommandLineManager.PrintMessage($"<color=#FF5555>\"{commandName}\" is not a valid command. Use the \"help\" command to display valid commands.</color>");
+        CommandLineManager.PrintMessage($"<color=#FF5555>\"{args[0]}\" is not a valid command. Use the \"help\" command to display valid commands.</color>");
         return 0;
     }
 
@@ -24,8 +34,4 @@ public class CMD_NotFound : GameCommand
         return "";
     }
 
-    public void SetArgs(string[] args)
-    {
-        commandName = args[0];
-    }
 }

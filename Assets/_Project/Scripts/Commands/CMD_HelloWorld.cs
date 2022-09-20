@@ -5,16 +5,26 @@ using UnityEngine;
 public class CMD_HelloWorld : GameCommand
 {
     public float cooldownTime => 0;
-    private string[] _args;
+    public string[] args { get; private set; }
+
+    public CMD_HelloWorld()
+    {
+        args = new string[]{ "helloworld"};
+    }
+
+    public CMD_HelloWorld(string[] args)
+    {
+        this.args = args;
+    }
 
     public int Execute()
     {
         string message = "Hello,";
-        if(_args.Length > 1)
+        if(args.Length > 1)
         {
-            for(int i = 1; i < _args.Length; i++)
+            for(int i = 1; i < args.Length; i++)
             {
-                message += ' ' + _args[i];
+                message += ' ' + args[i];
             }
         }
         else
@@ -27,15 +37,11 @@ public class CMD_HelloWorld : GameCommand
         return 0;
     }
 
-    public GameCommand instantiate()
+    public GameCommand instantiate(string[] args)
     {
-        return new CMD_HelloWorld();
+        return new CMD_HelloWorld(args);
     }
 
-    public void SetArgs(string[] args)
-    {
-        _args = (string[])args.Clone();
-    }
 
     public string ShortUsage()
     {

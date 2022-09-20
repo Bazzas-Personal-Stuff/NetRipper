@@ -6,7 +6,18 @@ using UnityEngine;
 public class CMD_Help : GameCommand
 {
     public float cooldownTime => 0;
-    private string[] _args;
+    public string[] args { get; private set; }
+
+
+
+    public CMD_Help()
+    {
+        args = new string[]{ "help"};
+    }
+    public CMD_Help(string[] args)
+    {
+        this.args = args;
+    }
 
     public string ShortUsage()
     {
@@ -30,13 +41,9 @@ public class CMD_Help : GameCommand
         return 0;
     }
 
-    public GameCommand instantiate()
+    public GameCommand instantiate(string[] args)
     {
-        return new CMD_Help();
+        return new CMD_Help(args);
     }
 
-    public void SetArgs(string[] args)
-    {
-        _args = args;
-    }
 }

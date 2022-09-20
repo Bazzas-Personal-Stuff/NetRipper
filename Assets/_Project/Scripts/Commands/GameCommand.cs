@@ -1,13 +1,13 @@
 
 public interface GameCommand
 {
-    public void SetArgs(string[] args);
 
+    public string[] args { get; }
     public int Execute();
 
     public string ShortUsage();
     
     public float cooldownTime { get; }
 
-    public GameCommand instantiate();
+    public GameCommand instantiate(string[] args);
 }

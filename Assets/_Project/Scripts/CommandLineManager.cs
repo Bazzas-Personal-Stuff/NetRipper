@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CommandLineManager : MonoBehaviour
 {
@@ -16,11 +17,13 @@ public class CommandLineManager : MonoBehaviour
     // References
     [SerializeField] private TMP_InputField _cliInputField;
     [SerializeField] private TMP_Text _cliOutputField;
+    [SerializeField] private ScrollRect _cliScrollRect;
 
 
     // Register commands here
     public Dictionary<string, GameCommand> allGameCommands = new() {
         {"help", new CMD_Help() },
+        {"helloworld", new CMD_HelloWorld()},
         
     };
 
@@ -87,8 +90,8 @@ public class CommandLineManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(line)) return;
 
-        line = line.ToLower();
         string[] args = line.Split(' ');
+        args[0] = args[0].ToLower();
         GameCommand command;
 
         if (!commandDict.ContainsKey(args[0]))
@@ -103,10 +106,27 @@ public class CommandLineManager : MonoBehaviour
         commandQueue.Enqueue(command);
     }
 
+    public void ScrollOutputToBottom()
+    {
+        StartCoroutine(ScrollOutputToBottomCoroutine());
+    }
+
+    private IEnumerator ScrollOutputToBottomCoroutine()
+    {
+        yield return 0;
+        _cliScrollRect.normalizedPosition = Vector2.zero;
+    }
+
 
     public static void PrintMessage(string message)
     {
-        print(message);
+        // Make sure we don't go over the TMP character limit
+        if(instance._cliOutputField.text.Length > 20_000)
+        {
+            instance._cliOutputField.text = instance._cliOutputField.text.Substring(10_000);
+        }
+
         instance._cliOutputField.text += '\n' + message;
+        instance.ScrollOutputToBottom();
     }
 }

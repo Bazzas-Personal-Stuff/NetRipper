@@ -15,7 +15,7 @@ public class CMD_NotFound : GameCommand
 
     public int Execute()
     {
-        CommandLineManager.PrintMessage($"\"{commandName}\" is not a valid command. Use the \"help\" command to display valid commands.");
+        CommandLineManager.PrintMessage($"<color=#FF5555>\"{commandName}\" is not a valid command. Use the \"help\" command to display valid commands.</color>");
         return 0;
     }
 

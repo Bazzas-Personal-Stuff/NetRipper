@@ -1,2 +1,6 @@
 ﻿Lift> I got you some new tools for this fancy corpo filesystem
-Lift> check out "list" and "navigate", they should help you fumble around in the dark.
+<color=#00FFFF>[Loaded program: list]</color>
+<color=#00FFFF>[Loaded program: navigate]</color>
+<color=#00FFFF>[Loaded program: read]</color>
+
+Lift> these should help you fumble around in the dark.

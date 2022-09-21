@@ -1,5 +1,5 @@
 ﻿Lift> nice work, here's your cut
 <color=#FFCC00>[Received $200 from Lift]</color>
-Lift> this is perfect! Beetle's going to chip at the ice to get you into that server.
+Lift> this is perfect! Beetle's going to use that key to get you a backdoor into some of the company's biggest servers.
 Lift> let's give her a while to prep the next job.
 <br><color=#00FF00>[This is the end of the 48h game jam version content]</color><br>

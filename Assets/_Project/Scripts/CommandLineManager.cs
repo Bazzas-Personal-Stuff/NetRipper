@@ -26,7 +26,7 @@ public class CommandLineManager : MonoBehaviour
     // Register commands here
     public Dictionary<string, GameCommand> allGameCommands = new() {
         {"help", new CMD_Help() },
-        {"hello_world", new CMD_HelloWorld()},
+        {"helloworld", new CMD_HelloWorld()},
         {"clear", new CMD_ClearScreen()},
         {"manual", new CMD_Manual()},
         { "connect", new CMD_Connect()},
@@ -67,21 +67,29 @@ public class CommandLineManager : MonoBehaviour
     }
 
 
-    private void Start()
-    {
-
-        // TODO: Remove this when level loading is in the game
-        foreach(var key in allGameCommands.Keys)
-        {
-            LoadCommand(key);
-        }
-
+    private void Start() {
+        string[] startingCommands = new[] {
+            "help",
+            "helloworld",
+            "clear",
+            "manual",
+            "connect",
+            "disconnect",
+        };
+        
+        LoadCommand(startingCommands);
+        
         //SubmitCommand("os_welcome");
         SubmitSilentCommand("echo <color=#797979>NetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
         SubmitCommand("echo on");
 
     }
 
+    public void LoadCommand(string[] commandNames) {
+        foreach (string s in commandNames) {
+            LoadCommand(s);
+        }
+    }
   
     public void LoadCommand(string commandName)
     {

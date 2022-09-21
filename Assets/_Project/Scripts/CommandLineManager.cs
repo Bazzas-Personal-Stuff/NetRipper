@@ -30,6 +30,7 @@ public class CommandLineManager : MonoBehaviour
         {"clear", new CMD_ClearScreen()},
         {"manual", new CMD_Manual()},
         { "connect", new CMD_Connect()},
+        {"disconnect", new CMD_Disconnect()},
         
     };
     public Dictionary<string, GameCommand> hiddenCommandDict = new() {

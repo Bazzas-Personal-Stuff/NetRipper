@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Directory : MonoBehaviour {
 
@@ -31,6 +32,10 @@ public class Directory : MonoBehaviour {
     public TMP_Text label;
 
     public Directory[] connected;
+    public File[] files;
+
+    public UnityEvent onFirstVisit;
+    public UnityEvent onFirstList;
 
     
     private void Start() {
@@ -64,9 +69,26 @@ public class Directory : MonoBehaviour {
         if ((int)visitState < (int)VisitState.visited) {
             visitState = VisitState.visited;
             StartFade(visitColor);
+            onFirstVisit?.Invoke();
         }
         if (hasCanary) {
             LevelManager.instance.OnCanaryVisited();
+        }
+    }
+
+    public void List() {
+        if ((int)visitState < (int)VisitState.listed) {
+            visitState = VisitState.listed;
+            StartFade(listedColor);
+            onFirstList?.Invoke();
+        }
+
+        foreach (Directory d in connected) {
+            d.Ping();
+        }
+
+        foreach (File f in files) {
+            f.Ping();
         }
     }
 

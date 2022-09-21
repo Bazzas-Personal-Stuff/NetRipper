@@ -30,6 +30,11 @@ public class CMD_Connect : GameCommand
             return 1;
         }
 
+        if (LevelManager.instance.isConnectedToRemote) {
+            CommandLineManager.PrintMessage("Could not connect to device: already connected to a device");
+            return 1;
+        }
+
         // check level keys
         if (LevelManager.instance.levelDict.ContainsKey(args[1])) {
             CommandLineManager.PrintMessage($"Connected to device \"{args[1]}\"");

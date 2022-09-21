@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour {
     public bool isConnectedToRemote;
     public Level currentLevel;
     public Directory workingDir;
+    public SpriteRenderer playerSprite;
 
     public bool hasVisitedCanary;
 
@@ -41,9 +42,12 @@ public class LevelManager : MonoBehaviour {
     public void Update() {
         if (isConnectedToRemote) {
             cameraTarget.position = workingDir.transform.position;
+            playerSprite.transform.position = workingDir.transform.position;
+            playerSprite.enabled = true;
         }
         else {
             cameraTarget.position = Vector3.zero;
+            playerSprite.enabled = false;
         }
         
     }

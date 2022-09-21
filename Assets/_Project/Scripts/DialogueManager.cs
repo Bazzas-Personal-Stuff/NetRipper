@@ -16,6 +16,9 @@ public class DialogueManager : MonoBehaviour
     public Color usernameColor;
     public Color transmissionMessageColor;
 
+    public IEnumerator currentDialogue;
+    
+    
     private void Awake()
     {
         if(instance != null)
@@ -34,7 +37,12 @@ public class DialogueManager : MonoBehaviour
     public void RunDialogue(int idx)
     {
         if (idx >= textAssets.Length || idx < 0) return;
-        StartCoroutine(DialogueCoroutine(idx));
+        if (currentDialogue != null) {
+            StopCoroutine(currentDialogue);
+        }
+
+        currentDialogue = DialogueCoroutine(idx);
+        StartCoroutine(currentDialogue);
     }
 
     private IEnumerator DialogueCoroutine(int idx, bool clear = false)

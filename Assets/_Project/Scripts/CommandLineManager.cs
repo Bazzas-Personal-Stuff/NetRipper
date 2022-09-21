@@ -24,10 +24,14 @@ public class CommandLineManager : MonoBehaviour
     public Dictionary<string, GameCommand> allGameCommands = new() {
         {"help", new CMD_Help() },
         {"helloworld", new CMD_HelloWorld()},
-        {"cls", new CMD_ClearScreen()},
+        {"clear", new CMD_ClearScreen()},
+        {"manual", new CMD_Manual()},
         
     };
-
+    public Dictionary<string, GameCommand> hiddenCommandDict = new(){
+        { "dl_run", new CMD_RunDialogue()},
+        {"cls", new CMD_ClearScreen()},
+    };
 
     private void Awake()
     {
@@ -104,7 +108,13 @@ public class CommandLineManager : MonoBehaviour
 
         if (!commandDict.ContainsKey(commandStrLower))
         {
-            command = new CMD_NotFound(args);
+            if (!hiddenCommandDict.ContainsKey(commandStrLower))
+            {
+                command = new CMD_NotFound(args);
+            } else
+            {
+                command = hiddenCommandDict[commandStrLower].instantiate(args);
+            }
         } else
         {
             command = commandDict[commandStrLower].instantiate(args);

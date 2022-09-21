@@ -98,7 +98,7 @@ public class CommandLineManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(line)) return;
 
-        string[] args = line.Split(' ');
+        string[] args = line.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
         string commandStrLower = args[0].ToLower();
         GameCommand command;
 
@@ -124,6 +124,7 @@ public class CommandLineManager : MonoBehaviour
 
         PrintMessage(inString);
         curCommand.Execute();
+        currentCooldown = curCommand.cooldownTime;
     }
 
     public void ScrollOutputToBottom()

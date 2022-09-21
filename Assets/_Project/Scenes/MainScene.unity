@@ -715,7 +715,7 @@ MonoBehaviour:
   dialogueScrollRect: {fileID: 298626097}
   textAssets:
   - {fileID: 4900000, guid: a3c439748483e2b45920ee0d640111b3, type: 3}
-  timePerCharacter: 0.05
+  timePerCharacter: 0.065
   usernameColor: {r: 0, g: 1, b: 0, a: 1}
   transmissionMessageColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &509931239

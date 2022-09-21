@@ -6,7 +6,7 @@ public class CMD_List : GameCommand
 {
     public string[] args { get; private set; }
     public string shortUsage => "List a directory's files and neighbors";
-    public string longUsage => "List the files and neighboring directories of the current working directory;";
+    public string longUsage => "List the files and neighboring directories of the current working directory\nAliases: list, ls";
     public float cooldownTime => 0;
 
     public CMD_List() {

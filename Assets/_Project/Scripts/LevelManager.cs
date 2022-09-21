@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LevelManager : MonoBehaviour {
 
@@ -14,7 +16,10 @@ public class LevelManager : MonoBehaviour {
         public Level level;
     }
     [SerializeField] private LevelKeys[] _levelKeyCorrespondence;
-    
+
+
+    public HashSet<string> recentConnectionSet = new();
+    public TMP_Text recentConnectionString;
     
     public bool isConnectedToRemote;
     public Level currentLevel;
@@ -22,6 +27,7 @@ public class LevelManager : MonoBehaviour {
     public SpriteRenderer playerSprite;
 
     public bool hasVisitedCanary;
+    public UnityEvent onDisconnect;
 
     private void Awake()
     {
@@ -46,7 +52,6 @@ public class LevelManager : MonoBehaviour {
             playerSprite.enabled = true;
         }
         else {
-            cameraTarget.position = Vector3.zero;
             playerSprite.enabled = false;
         }
         
@@ -54,6 +59,10 @@ public class LevelManager : MonoBehaviour {
 
     
     public void Connect(string level) {
+        if (!recentConnectionSet.Contains(level)) {
+            recentConnectionSet.Add(level);
+            recentConnectionString.text += $"\n{level}";
+        }
         Connect(levelDict[level]);
     }
 
@@ -66,19 +75,22 @@ public class LevelManager : MonoBehaviour {
 
     public void Disconnect() {
         isConnectedToRemote = false;
+        cameraTarget.position = Vector3.zero;
+        onDisconnect?.Invoke();
     }
 
     public void OnCanaryVisited() {
         StartCoroutine(BeginReconnect());
         if (!hasVisitedCanary) {
             hasVisitedCanary = true;
-            CommandLineManager.instance.SubmitSilentCommand("dbg_dialogue 1");
+            CommandLineManager.instance.SubmitSilentCommand("dbg_dialogue 2");
         }
     }
 
     public IEnumerator BeginReconnect() {
-        Disconnect();
-        yield return new WaitForSeconds(0.5f);
+        // Disconnect();
+        isConnectedToRemote = false;
+        yield return new WaitForSeconds(2f);
         Connect(currentLevel);
     }
 

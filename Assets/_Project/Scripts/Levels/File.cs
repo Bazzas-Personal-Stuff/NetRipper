@@ -20,8 +20,9 @@ public class File : MonoBehaviour {
     public SpriteRenderer iconSprite;
     public TMP_Text label;
     
-    public UnityAction onRip;
+    public UnityEvent onRip;
 
+    [Multiline]
     public string readableText;
     
     private bool _isFading;

@@ -9,7 +9,7 @@ public class CMD_ClearScreen : GameCommand
 
     public float cooldownTime => 0;
     public string shortUsage => "Clear the terminal screen";
-    public string longUsage => "Clear the terminal screen.\n Alias: cls";
+    public string longUsage => "Clear the terminal screen.\nAliases: clear, cls";
 
     public CMD_ClearScreen()
     {

@@ -9,7 +9,7 @@ public class CMD_Manual : GameCommand
     public float cooldownTime => 0;
 
     public string shortUsage => "Print usage of a command";
-    public string longUsage => "<command>    Print usage of the specified command";
+    public string longUsage => "<command>    Print usage of the specified command\nAliases: manual, man";
 
     public CMD_Manual()
     {

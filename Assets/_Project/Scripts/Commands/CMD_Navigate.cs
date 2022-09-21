@@ -6,9 +6,9 @@ using UnityEngine;
 public class CMD_Navigate : GameCommand
 {
     public string[] args { get; private set; }
-    public string shortUsage { get; }
-    public string longUsage { get; }
-    public float cooldownTime { get; }
+    public string shortUsage => "Navigate directories in a file system";
+    public string longUsage => "<path>    Move to the directory at the end of the specified path\nAliases: navigate, nav, cd";
+    public float cooldownTime => 0;
 
     public CMD_Navigate() {
         args = new[] { "navigate" };

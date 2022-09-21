@@ -1,5 +1,5 @@
-﻿Lift> nice work on the exfil, I'll get this sent over to Beetle.
-Lift> here's your cut
+﻿Lift> nice work, here's your cut
 <color=#FFCC00>[Received $200 from Lift]</color>
-Lift> let's give Beetle a while to prep the next job.
+Lift> this is perfect! Beetle's going to chip at the ice to get you into that server.
+Lift> let's give her a while to prep the next job.
 <br><color=#00FF00>[This is the end of the 48h game jam version content]</color><br>

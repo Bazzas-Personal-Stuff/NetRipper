@@ -15,9 +15,19 @@ public class DialogueManager : MonoBehaviour
     public float timePerCharacter = 0.1f;
     public Color usernameColor;
     public Color transmissionMessageColor;
+    public Queue<TextAsset> disconnectQueue = new();
 
     public IEnumerator currentDialogue;
-    
+
+    public void OnDisconnect() {
+        if(disconnectQueue.TryDequeue(out TextAsset asset)) {
+            RunDialogue(asset);
+        }
+    }
+
+    public void QueueDisconnectDialogue(TextAsset dialogue) {
+        disconnectQueue.Enqueue(dialogue);
+    }
     
     private void Awake()
     {
@@ -29,30 +39,33 @@ public class DialogueManager : MonoBehaviour
         instance = this;
     }
 
-    private void Start()
-    {
+    private void Start() {
+        LevelManager.instance.onDisconnect.AddListener(OnDisconnect);
         RunDialogue(0);
     }
 
     public void RunDialogue(int idx)
     {
         if (idx >= textAssets.Length || idx < 0) return;
+        RunDialogue(textAssets[idx]);
+    }
+    public void RunDialogue(TextAsset textAsset) {
         if (currentDialogue != null) {
             StopCoroutine(currentDialogue);
         }
-
-        currentDialogue = DialogueCoroutine(idx);
+        
+        currentDialogue = DialogueCoroutine(textAsset);
         StartCoroutine(currentDialogue);
     }
 
-    private IEnumerator DialogueCoroutine(int idx, bool clear = false)
+    private IEnumerator DialogueCoroutine(TextAsset textAsset, bool clear = true)
     {
         if (clear) {
             dialogueOutputField.text = "";
         }
         
         StartCoroutine(PrintDialogue($"<color=#{ColorUtility.ToHtmlStringRGB(transmissionMessageColor)}>[Incoming message]</color>"));
-        string[] lines = textAssets[idx].text.Split('\n', System.StringSplitOptions.RemoveEmptyEntries);
+        string[] lines = textAsset.text.Split('\n', System.StringSplitOptions.RemoveEmptyEntries);
         for(int i = 0; i < lines.Length; i++)
         {
             string line = lines[i];
@@ -70,7 +83,7 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(PrintDialogue(line));
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
         StartCoroutine(PrintDialogue($"<color=#{ColorUtility.ToHtmlStringRGB(transmissionMessageColor)}>[Transmission ended]</color>"));
     }
 

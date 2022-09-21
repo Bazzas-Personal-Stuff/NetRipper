@@ -6,7 +6,7 @@ public class CMD_Disconnect : GameCommand
 {
     public string[] args { get; private set; }
     public string shortUsage => "Disconnect from a remote device";
-    public string longUsage => shortUsage;
+    public string longUsage => "Disconnect from a remote device\nAliases: disconnect, logout, quit, exit";
     public float cooldownTime => 0;
 
     public CMD_Disconnect() {

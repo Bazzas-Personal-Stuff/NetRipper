@@ -74,6 +74,7 @@ public class Directory : MonoBehaviour {
             onFirstVisit?.Invoke();
         }
         if (hasCanary) {
+            canarySprite.enabled = true;
             LevelManager.instance.OnCanaryVisited();
         }
     }

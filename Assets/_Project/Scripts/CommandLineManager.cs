@@ -26,14 +26,15 @@ public class CommandLineManager : MonoBehaviour
     // Register commands here
     public Dictionary<string, GameCommand> allGameCommands = new() {
         {"help", new CMD_Help() },
-        {"helloworld", new CMD_HelloWorld()},
+        {"hello_world", new CMD_HelloWorld()},
         {"clear", new CMD_ClearScreen()},
         {"manual", new CMD_Manual()},
         { "connect", new CMD_Connect()},
         {"disconnect", new CMD_Disconnect()},
         {"list", new CMD_List()},
         {"navigate", new CMD_Navigate()},
-        
+        {"read", new CMD_Read()},
+        {"rip", new CMD_Rip()},
     };
     public Dictionary<string, GameCommand> hiddenCommandDict = new() {
         // Internal
@@ -47,6 +48,11 @@ public class CommandLineManager : MonoBehaviour
         { "man", new CMD_Manual() },
         {"ls", new CMD_List()},
         {"cd", new CMD_Navigate()},
+        {"nav", new CMD_Navigate()},
+        {"quit", new CMD_Disconnect()},
+        {"logout", new CMD_Disconnect()},
+        {"exit", new CMD_Disconnect()},
+        {"cat", new CMD_Read()},
     };
 
     private void Awake()

@@ -31,6 +31,8 @@ public class CommandLineManager : MonoBehaviour
         {"manual", new CMD_Manual()},
         { "connect", new CMD_Connect()},
         {"disconnect", new CMD_Disconnect()},
+        {"list", new CMD_List()},
+        {"navigate", new CMD_Navigate()},
         
     };
     public Dictionary<string, GameCommand> hiddenCommandDict = new() {
@@ -43,6 +45,8 @@ public class CommandLineManager : MonoBehaviour
         // Aliases
         { "cls", new CMD_ClearScreen() },
         { "man", new CMD_Manual() },
+        {"ls", new CMD_List()},
+        {"cd", new CMD_Navigate()},
     };
 
     private void Awake()

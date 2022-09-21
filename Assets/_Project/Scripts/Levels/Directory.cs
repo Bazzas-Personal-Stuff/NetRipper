@@ -25,7 +25,6 @@ public class Directory : MonoBehaviour {
     private Color _fadeEndColor;
     
     public VisitState visitState = VisitState.invisible;
-    public string dirName = "directory";
     public bool hasCanary;
     public SpriteRenderer circleSprite;
     public SpriteRenderer canarySprite;
@@ -39,8 +38,8 @@ public class Directory : MonoBehaviour {
 
     
     private void Start() {
-        
-        label.text = dirName;
+
+        label.text = name;
         circleSprite.color = invisColor;
         label.color = invisColor;
         canarySprite.enabled = false;
@@ -50,10 +49,13 @@ public class Directory : MonoBehaviour {
 
     private void Update() {
         if (_isFading) {
+            _fadeTimer += Time.deltaTime;
+            if (_fadeTimer > _fadeMaxTime) {
+                _isFading = false;
+            }
             Color curColor = Color.Lerp(_fadeBeginColor, _fadeEndColor, _fadeTimer / _fadeMaxTime);
             circleSprite.color = curColor;
             label.color = curColor;
-            _fadeTimer += Time.deltaTime;
         }
     }
     

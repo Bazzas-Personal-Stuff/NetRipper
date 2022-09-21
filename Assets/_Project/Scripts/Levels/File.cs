@@ -13,7 +13,6 @@ public class File : MonoBehaviour {
 
     public VisitState visitState;
 
-    public string fileName;
     public Color invisColor;
     public Color pingedColor;
     public Color rippedColor;
@@ -33,14 +32,18 @@ public class File : MonoBehaviour {
     
     
     private void Start() {
-        
-        label.text = fileName;
+
+        label.text = name;
         iconSprite.color = invisColor;
         label.color = invisColor;
     }
 
     private void Update() {
         if (_isFading) {
+            _fadeTimer += Time.deltaTime;
+            if (_fadeTimer > _fadeMaxTime) {
+                _isFading = false;
+            }
             Color curColor = Color.Lerp(_fadeBeginColor, _fadeEndColor, _fadeTimer / _fadeMaxTime);
             iconSprite.color = curColor;
             label.color = curColor;

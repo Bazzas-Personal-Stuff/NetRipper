@@ -5,4 +5,4 @@ Lift> the deck looks company-issued. Looks like the Suit works at "Neural Integr
 Lift> I think that's the corp Beetle's been scoping out
 Lift> see if you can find anything Beetle can use to get a connection to the servers
 Lift> here's the chip's connection key:
-Lift> deckrip-0fe1
+Lift> decklink-0fe1

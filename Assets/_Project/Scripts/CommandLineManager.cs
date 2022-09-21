@@ -12,6 +12,7 @@ public class CommandLineManager : MonoBehaviour
     public Dictionary<string, GameCommand> commandDict = new();
 
     public Queue<GameCommand> commandQueue = new();
+    public Queue<GameCommand> silentCommandQueue = new();
     public bool echoOn = false;
     public float currentCooldown = 2f;
 
@@ -65,7 +66,7 @@ public class CommandLineManager : MonoBehaviour
         }
 
         //SubmitCommand("os_welcome");
-        SubmitCommand("echo <color=#797979>NetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
+        SubmitSilentCommand("echo <color=#797979>NetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
         SubmitCommand("echo on");
 
     }
@@ -95,7 +96,10 @@ public class CommandLineManager : MonoBehaviour
         }
         else
         {
-            if(commandQueue.Count > 0)
+            if (silentCommandQueue.Count > 0) {
+                ExecuteNextSilentCommand();
+            }
+            else if(commandQueue.Count > 0)
             {
                 ExecuteNextCommand();
             }
@@ -119,6 +123,15 @@ public class CommandLineManager : MonoBehaviour
         string[] args = line.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
 
         commandQueue.Enqueue(FindCommand(args));
+    }
+    
+    public void SubmitSilentCommand(string line)
+    {
+        if (string.IsNullOrEmpty(line)) return;
+
+        string[] args = line.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+
+        silentCommandQueue.Enqueue(FindCommand(args));
     }
 
     public GameCommand FindCommand(string arg)
@@ -165,6 +178,11 @@ public class CommandLineManager : MonoBehaviour
         currentCooldown = curCommand.cooldownTime;
     }
 
+    public void ExecuteNextSilentCommand() {
+        GameCommand curCommand = silentCommandQueue.Dequeue();
+        curCommand.Execute();
+        currentCooldown = curCommand.cooldownTime;
+    }
 
     public void ScrollOutputToBottom()
     {

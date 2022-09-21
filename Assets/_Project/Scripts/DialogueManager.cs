@@ -37,9 +37,12 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(DialogueCoroutine(idx));
     }
 
-    private IEnumerator DialogueCoroutine(int idx)
+    private IEnumerator DialogueCoroutine(int idx, bool clear = false)
     {
-        dialogueOutputField.text = "";
+        if (clear) {
+            dialogueOutputField.text = "";
+        }
+        
         StartCoroutine(PrintDialogue($"<color=#{ColorUtility.ToHtmlStringRGB(transmissionMessageColor)}>[Incoming message]</color>"));
         string[] lines = textAssets[idx].text.Split('\n', System.StringSplitOptions.RemoveEmptyEntries);
         for(int i = 0; i < lines.Length; i++)

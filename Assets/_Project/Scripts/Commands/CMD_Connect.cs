@@ -31,8 +31,15 @@ public class CMD_Connect : GameCommand
         }
 
         // check level keys
-
-        return 0;
+        if (LevelManager.instance.levelDict.ContainsKey(args[1])) {
+            CommandLineManager.PrintMessage($"Connected to device \"{args[1]}\"");
+            LevelManager.instance.Connect(args[1]);
+            return 0;
+        }
+        else {
+            CommandLineManager.PrintMessage($"Could not connect to device \"{args[1]}\"");
+            return 1;
+        }
     }
 
     public GameCommand instantiate(string[] args)

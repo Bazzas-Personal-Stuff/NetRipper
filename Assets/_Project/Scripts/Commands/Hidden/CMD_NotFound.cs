@@ -6,6 +6,9 @@ public class CMD_NotFound : GameCommand
 {
     public float cooldownTime => 0;
     public string[] args { get; private set; }
+    public string shortUsage => "Error message when a command is not available";
+    public string longUsage => "Command not recognised";
+
 
     public CMD_NotFound()
     {
@@ -29,9 +32,5 @@ public class CMD_NotFound : GameCommand
         return 0;
     }
 
-    public string ShortUsage()
-    {
-        return "";
-    }
 
 }

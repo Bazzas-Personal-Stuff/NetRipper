@@ -6,6 +6,9 @@ public class CMD_HelloWorld : GameCommand
 {
     public float cooldownTime => 0;
     public string[] args { get; private set; }
+    public string shortUsage => "Print a nice welcome message";
+    public string longUsage => "[names]    Print a nice welcome message. If names are passed in as additional arguments, you will be greeted personally.";
+
 
     public CMD_HelloWorld()
     {

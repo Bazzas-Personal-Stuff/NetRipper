@@ -12,12 +12,14 @@ public class CommandLineManager : MonoBehaviour
     public Dictionary<string, GameCommand> commandDict = new();
 
     public Queue<GameCommand> commandQueue = new();
-    public float currentCooldown;
+    public bool echoOn = false;
+    public float currentCooldown = 2f;
 
     // References
     public TMP_InputField cliInputField;
     public TMP_Text cliOutputField;
     public ScrollRect cliScrollRect;
+
 
 
     // Register commands here
@@ -26,11 +28,19 @@ public class CommandLineManager : MonoBehaviour
         {"helloworld", new CMD_HelloWorld()},
         {"clear", new CMD_ClearScreen()},
         {"manual", new CMD_Manual()},
+        { "connect", new CMD_Connect()},
         
     };
-    public Dictionary<string, GameCommand> hiddenCommandDict = new(){
-        { "dl_run", new CMD_RunDialogue()},
-        {"cls", new CMD_ClearScreen()},
+    public Dictionary<string, GameCommand> hiddenCommandDict = new() {
+        // Internal
+        { "echo", new CMD_Echo() },
+
+        // Debug
+        { "dbg_dialogue", new CMD_RunDialogue() },
+
+        // Aliases
+        { "cls", new CMD_ClearScreen() },
+        { "man", new CMD_Manual() },
     };
 
     private void Awake()
@@ -47,12 +57,16 @@ public class CommandLineManager : MonoBehaviour
 
     private void Start()
     {
+
         // TODO: Remove this when level loading is in the game
         foreach(var key in allGameCommands.Keys)
         {
             LoadCommand(key);
         }
 
+        //SubmitCommand("os_welcome");
+        SubmitCommand("echo <color=#797979>NetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
+        SubmitCommand("echo on");
 
     }
 
@@ -91,21 +105,31 @@ public class CommandLineManager : MonoBehaviour
         // Submit input line
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            OnLineSubmitted(cliInputField.text);
+            SubmitCommand(cliInputField.text);
             cliInputField.text = "";
             cliInputField.ActivateInputField();
         }
     }
 
 
-    public void OnLineSubmitted(string line)
+    public void SubmitCommand(string line)
     {
         if (string.IsNullOrEmpty(line)) return;
 
         string[] args = line.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+
+        commandQueue.Enqueue(FindCommand(args));
+    }
+
+    public GameCommand FindCommand(string arg)
+    {
+        return FindCommand(new string[] { arg });
+    }
+
+    public GameCommand FindCommand(string[] args)
+    {
         string commandStrLower = args[0].ToLower();
         GameCommand command;
-
         if (!commandDict.ContainsKey(commandStrLower))
         {
             if (!hiddenCommandDict.ContainsKey(commandStrLower))
@@ -120,22 +144,27 @@ public class CommandLineManager : MonoBehaviour
             command = commandDict[commandStrLower].instantiate(args);
         }
 
-        commandQueue.Enqueue(command);
+        return command;
     }
 
     public void ExecuteNextCommand()
     {
         GameCommand curCommand = commandQueue.Dequeue();
-        string inString = ">";
-        foreach(string arg in curCommand.args)
+        if (echoOn)
         {
-            inString += " " + arg;
-        }
+            string inString = ">";
+            foreach(string arg in curCommand.args)
+            {
+                inString += " " + arg;
+            }
 
-        PrintMessage(inString);
+            PrintMessage(inString);
+        }
+        
         curCommand.Execute();
         currentCooldown = curCommand.cooldownTime;
     }
+
 
     public void ScrollOutputToBottom()
     {

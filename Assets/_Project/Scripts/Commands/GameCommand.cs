@@ -5,7 +5,8 @@ public interface GameCommand
     public string[] args { get; }
     public int Execute();
 
-    public string ShortUsage();
+    public string shortUsage { get; }
+    public string longUsage { get; }
     
     public float cooldownTime { get; }
 

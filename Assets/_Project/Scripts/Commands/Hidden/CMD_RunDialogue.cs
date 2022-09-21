@@ -7,6 +7,9 @@ public class CMD_RunDialogue : GameCommand
 {
     public string[] args { get; private set; }
 
+    public string shortUsage => "<index>    Run dialogue file from the specified index from the dialogue array";
+    public string longUsage => shortUsage;
+
     public float cooldownTime => 0;
 
     public CMD_RunDialogue()
@@ -40,9 +43,5 @@ public class CMD_RunDialogue : GameCommand
         return new CMD_RunDialogue(args);
     }
 
-    public string ShortUsage()
-    {
-        throw new System.NotImplementedException();
-    }
 
 }

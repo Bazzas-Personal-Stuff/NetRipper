@@ -8,10 +8,12 @@ public class CMD_ClearScreen : GameCommand
     public string[] args { get; private set; }
 
     public float cooldownTime => 0;
+    public string shortUsage => "Clear the terminal screen";
+    public string longUsage => "Clear the terminal screen.\n Alias: cls";
 
     public CMD_ClearScreen()
     {
-        args = new string[] { "cls" };
+        args = new string[] { "clear" };
     }
 
     public CMD_ClearScreen(string[] args)
@@ -30,8 +32,4 @@ public class CMD_ClearScreen : GameCommand
         return new CMD_ClearScreen(args);
     }
 
-    public string ShortUsage()
-    {
-        return "Clear the terminal screen";
-    }
 }

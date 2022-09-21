@@ -7,7 +7,8 @@ public class CMD_Help : GameCommand
 {
     public float cooldownTime => 0;
     public string[] args { get; private set; }
-
+    public string shortUsage => "Display available commands";
+    public string longUsage => shortUsage;
 
 
     public CMD_Help()
@@ -19,11 +20,6 @@ public class CMD_Help : GameCommand
         this.args = args;
     }
 
-    public string ShortUsage()
-    {
-        return "Display this message";
-    }
-
 
     public int Execute()
     {
@@ -32,10 +28,11 @@ public class CMD_Help : GameCommand
         string[] commandNames = new string[commandKeys.Count];
         commandKeys.CopyTo(commandNames, 0);
         Array.Sort(commandNames);
+        CommandLineManager.PrintMessage("Available commands:");
 
         foreach(string commandName in commandNames)
         {
-            CommandLineManager.PrintMessage($"{commandName}\t {CommandLineManager.instance.commandDict[commandName].ShortUsage()}");
+            CommandLineManager.PrintMessage($"<color=#00FF00>{commandName}</color>\t {CommandLineManager.instance.commandDict[commandName].shortUsage}");
         }
 
         return 0;

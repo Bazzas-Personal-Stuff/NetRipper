@@ -39,8 +39,9 @@ public class DialogueManager : MonoBehaviour
         instance = this;
     }
 
-    private void Start() {
+    private IEnumerator Start() {
         LevelManager.instance.onDisconnect.AddListener(OnDisconnect);
+        yield return new WaitForSeconds(5);
         RunDialogue(0);
     }
 
@@ -93,6 +94,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator PrintDialogueInternal(string message)
     {
+        AudioManager.instance.PlayMessageSound();
         dialogueOutputField.text += '\n' + message;
         yield return 0;
         dialogueScrollRect.normalizedPosition = Vector2.zero;

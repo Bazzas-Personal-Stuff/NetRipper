@@ -45,16 +45,12 @@ public class LevelManager : MonoBehaviour {
     }
 
 
-    public void Update() {
+    public void UpdatePlayerPos() {
         if (isConnectedToRemote) {
             cameraTarget.position = workingDir.transform.position;
             playerSprite.transform.position = workingDir.transform.position;
-            playerSprite.enabled = true;
+            // playerSprite.enabled = true;
         }
-        else {
-            playerSprite.enabled = false;
-        }
-        
     }
 
     
@@ -70,16 +66,20 @@ public class LevelManager : MonoBehaviour {
         currentLevel = level;
         isConnectedToRemote = true;
         workingDir = currentLevel.entryPoint;
+        cameraTarget.position = workingDir.transform.position;
+        playerSprite.enabled = true;
         workingDir.Visit();
     }
 
     public void Disconnect() {
         isConnectedToRemote = false;
         cameraTarget.position = Vector3.zero;
+        playerSprite.enabled = false;
         onDisconnect?.Invoke();
     }
 
     public void OnCanaryVisited() {
+        AudioManager.instance.PlayCanarySound();
         StartCoroutine(BeginReconnect());
         if (!hasVisitedCanary) {
             hasVisitedCanary = true;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,7 +16,7 @@ public class CommandLineManager : MonoBehaviour
 
     public Queue<GameCommand> commandQueue = new();
     public Queue<GameCommand> silentCommandQueue = new();
-    public bool echoOn = false;
+    [NonSerialized] public bool echoOn = true;
     public float currentCooldown = 2f;
 
     // References
@@ -73,10 +74,7 @@ public class CommandLineManager : MonoBehaviour
     private void Start() {
         
         LoadCommand(startingCommands, false);
-        
-        //SubmitCommand("os_welcome");
-        SubmitSilentCommand("echo <color=#797979>Orb CyberDeck Solutions\nNetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
-        SubmitCommand("echo on");
+        SubmitSilentCommand($"echo <color=#{ColorUtility.ToHtmlStringRGB(echoColor)}>Orb CyberDeck Solutions\nNetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
 
     }
 
@@ -199,6 +197,7 @@ public class CommandLineManager : MonoBehaviour
             PrintMessage($"<color=#{ColorUtility.ToHtmlStringRGB(echoColor)}>{inString}</color>");
         }
         
+        AudioManager.instance.PlayDriveActivity();
         curCommand.Execute();
         currentCooldown = curCommand.cooldownTime;
     }

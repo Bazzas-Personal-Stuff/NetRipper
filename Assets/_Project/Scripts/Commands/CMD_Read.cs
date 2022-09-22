@@ -31,6 +31,7 @@ public class CMD_Read : GameCommand
         foreach (File file in LevelManager.instance.workingDir.files) {
             if (file.name.Equals(args[1])) {
                 CommandLineManager.PrintMessage(file.readableText);
+                file.Read();
                 return 0;
             }
         }

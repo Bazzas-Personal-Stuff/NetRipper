@@ -80,6 +80,8 @@ public class Directory : MonoBehaviour {
             onVisitStatusUpdate?.Invoke();
             onFirstVisit?.Invoke();
         }
+
+        LevelManager.instance.UpdatePlayerPos();
         if (hasCanary) {
             canarySprite.enabled = true;
             LevelManager.instance.OnCanaryVisited();

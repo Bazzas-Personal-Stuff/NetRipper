@@ -1,7 +1,7 @@
 Lift> hey, I've got a new job for you
 Lift> our guy on the ground managed to sneak a DeckLink chip into a Suit's deck
 Lift> he reckons she's pretty high up the food chain. 
-Lift> not quite exec level, but her access level should be plenty high enough for our needs.
+Lift> not quite exec status, but her access level should be plenty high enough for our needs.
 Lift> the deck's company-issued. Looks like the Suit works at "Neural Integrations"
 Lift> Beetle's been scoping out this corp for a while but the servers have some pretty thick ICE.
 Lift> see if you can find anything Beetle can use to get a connection to the servers

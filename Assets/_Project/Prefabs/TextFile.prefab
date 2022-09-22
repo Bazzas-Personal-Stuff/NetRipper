@@ -49,9 +49,17 @@ MonoBehaviour:
   visitState: 0
   invisColor: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 0}
   pingedColor: {r: 0.42352942, g: 0.42352942, b: 0.42352942, a: 1}
+  readColor: {r: 1, g: 1, b: 1, a: 1}
   rippedColor: {r: 0, g: 1, b: 1, a: 1}
+  currentColor: {r: 0, g: 0, b: 0, a: 0}
   iconSprite: {fileID: 7509843248165726610}
   label: {fileID: 7509843247471569998}
+  onRead:
+    m_PersistentCalls:
+      m_Calls: []
+  onRip:
+    m_PersistentCalls:
+      m_Calls: []
   readableText: 
   _fadeMaxTime: 1
 --- !u!1 &7509843247471569996

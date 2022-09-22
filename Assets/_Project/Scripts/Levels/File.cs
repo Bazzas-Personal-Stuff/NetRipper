@@ -8,6 +8,7 @@ public class File : MonoBehaviour {
     public enum VisitState {
         invisible,
         pinged,
+        read,
         ripped
     }
 
@@ -15,13 +16,15 @@ public class File : MonoBehaviour {
 
     public Color invisColor;
     public Color pingedColor;
+    public Color readColor;
     public Color rippedColor;
     
     public Color currentColor;
 
     public SpriteRenderer iconSprite;
     public TMP_Text label;
-    
+
+    public UnityEvent onRead;
     public UnityEvent onRip;
 
     [Multiline(5)]
@@ -60,6 +63,15 @@ public class File : MonoBehaviour {
             StartFade(pingedColor);
             visitState = VisitState.pinged;
         }
+    }
+
+    public void Read() {
+        if ((int)visitState < (int)VisitState.read) {
+            StartFade(readColor);
+            visitState = VisitState.read;
+            onRead?.Invoke();
+        }
+        
     }
 
     public void Rip() {

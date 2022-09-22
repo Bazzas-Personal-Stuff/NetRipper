@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ffa0abb3c38f434caab1ddeca2c2eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentColor: {r: 0, g: 0, b: 0, a: 0}
   invisColor: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 0}
   pingColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
   visitColor: {r: 1, g: 1, b: 1, a: 1}
@@ -141,12 +142,13 @@ MonoBehaviour:
   circleSprite: {fileID: 7509843248165726610}
   canarySprite: {fileID: 2006093217351976050}
   label: {fileID: 7509843247471569998}
-  connected: []
-  files: []
   onFirstVisit:
     m_PersistentCalls:
       m_Calls: []
   onFirstList:
+    m_PersistentCalls:
+      m_Calls: []
+  onVisitStatusUpdate:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &7509843247471569996

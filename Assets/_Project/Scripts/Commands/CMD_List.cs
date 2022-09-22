@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,16 +26,18 @@ public class CMD_List : GameCommand
         Directory currentDir = LevelManager.instance.workingDir;
         currentDir.List();
         
-        string outStr = "";
+        List<string> outStrings = new();
         foreach (Directory dir in currentDir.connected) {
             dir.Ping();
-            outStr += $"(dir) {dir.name}\n";
+            outStrings.Add($"(dir) {dir.name}");
         }
 
         foreach (File file in currentDir.files) {
             file.Ping();
-            outStr += $"(file) {file.name}\n";
+            outStrings.Add($"(file) {file.name}");
         }
+
+        string outStr = String.Join('\n', outStrings);
         CommandLineManager.PrintMessage(outStr);
         
         return 0;

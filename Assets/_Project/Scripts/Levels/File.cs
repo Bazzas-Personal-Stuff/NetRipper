@@ -16,13 +16,15 @@ public class File : MonoBehaviour {
     public Color invisColor;
     public Color pingedColor;
     public Color rippedColor;
+    
+    public Color currentColor;
 
     public SpriteRenderer iconSprite;
     public TMP_Text label;
     
     public UnityEvent onRip;
 
-    [Multiline]
+    [Multiline(5)]
     public string readableText;
     
     private bool _isFading;
@@ -32,11 +34,12 @@ public class File : MonoBehaviour {
     private Color _fadeEndColor;
     
     
-    private void Start() {
+    private void Awake() {
 
         label.text = name;
-        iconSprite.color = invisColor;
-        label.color = invisColor;
+        currentColor = invisColor;    
+        iconSprite.color = currentColor;
+        label.color = currentColor;
     }
 
     private void Update() {
@@ -45,9 +48,9 @@ public class File : MonoBehaviour {
             if (_fadeTimer > _fadeMaxTime) {
                 _isFading = false;
             }
-            Color curColor = Color.Lerp(_fadeBeginColor, _fadeEndColor, _fadeTimer / _fadeMaxTime);
-            iconSprite.color = curColor;
-            label.color = curColor;
+            currentColor = Color.Lerp(_fadeBeginColor, _fadeEndColor, _fadeTimer / _fadeMaxTime);
+            iconSprite.color = currentColor;
+            label.color = currentColor;
             _fadeTimer += Time.deltaTime;
         }
     }

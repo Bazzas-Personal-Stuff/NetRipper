@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,8 @@ public class Directory : MonoBehaviour {
         listed
     }
 
+    public Color currentColor;
+    
     public Color invisColor;
     public Color pingColor;
     public Color visitColor;
@@ -30,18 +33,20 @@ public class Directory : MonoBehaviour {
     public SpriteRenderer canarySprite;
     public TMP_Text label;
 
-    public Directory[] connected;
-    public File[] files;
+    [NonSerialized] public List<Directory> connected = new();
+    [NonSerialized] public List<File> files = new();
 
     public UnityEvent onFirstVisit;
     public UnityEvent onFirstList;
 
-    
-    private void Start() {
+    public UnityEvent onVisitStatusUpdate;
 
+    private void Awake() {
+        
         label.text = name;
-        circleSprite.color = invisColor;
-        label.color = invisColor;
+        currentColor = invisColor;
+        circleSprite.color = currentColor;
+        label.color = currentColor;
         canarySprite.enabled = false;
         
     }
@@ -53,9 +58,9 @@ public class Directory : MonoBehaviour {
             if (_fadeTimer > _fadeMaxTime) {
                 _isFading = false;
             }
-            Color curColor = Color.Lerp(_fadeBeginColor, _fadeEndColor, _fadeTimer / _fadeMaxTime);
-            circleSprite.color = curColor;
-            label.color = curColor;
+            currentColor = Color.Lerp(_fadeBeginColor, _fadeEndColor, _fadeTimer / _fadeMaxTime);
+            circleSprite.color = currentColor;
+            label.color = currentColor;
         }
     }
     
@@ -64,6 +69,7 @@ public class Directory : MonoBehaviour {
         if (visitState == VisitState.invisible) {
             visitState = VisitState.pinged;
             StartFade(pingColor);
+            onVisitStatusUpdate?.Invoke();
         }
     }
 
@@ -71,6 +77,7 @@ public class Directory : MonoBehaviour {
         if ((int)visitState < (int)VisitState.visited) {
             visitState = VisitState.visited;
             StartFade(visitColor);
+            onVisitStatusUpdate?.Invoke();
             onFirstVisit?.Invoke();
         }
         if (hasCanary) {
@@ -84,6 +91,7 @@ public class Directory : MonoBehaviour {
             visitState = VisitState.listed;
             StartFade(listedColor);
             onFirstList?.Invoke();
+            onVisitStatusUpdate?.Invoke();
         }
 
         foreach (Directory d in connected) {

@@ -7,8 +7,11 @@ public class CMD_Navigate : GameCommand
 {
     public string[] args { get; private set; }
     public string shortUsage => "Navigate directories in a file system";
-    public string longUsage => "<path>    Move to the directory at the end of the specified path\nAliases: navigate, nav, cd";
-    public float cooldownTime => 0;
+    public string longUsage => "<directory|path>    Move to the specified directory. If a path is specified instead, jump to the directory at the end of the specified path\nAliases: navigate, nav, cd";
+    public float cooldownTime { get; private set; }
+    
+
+    private float timePerJump = 0.3f;
 
     public CMD_Navigate() {
         args = new[] { "navigate" };
@@ -54,18 +57,31 @@ public class CMD_Navigate : GameCommand
         }
 
         if (isPathGood) {
-            foreach (Directory d in dirsToPing) {
-                d.Ping();
-            }
-
-            LevelManager.instance.workingDir = dirsToPing[^1];
-            LevelManager.instance.workingDir.Visit();
+            cooldownTime = timePerJump * (dirsToPing.Count - 1);
+            LevelManager.instance.StartCoroutine(DoTraversal(dirsToPing));
+            // foreach (Directory d in dirsToPing) {
+            //     d.Ping();
+            // }
+            //
+            // LevelManager.instance.workingDir = dirsToPing[^1];
+            // LevelManager.instance.workingDir.Visit();
             return 0;
         }
         else {
             CommandLineManager.PrintMessage($"Navigate failed: {args[1]} is not a valid path");
             return 1;
         }
+    }
+
+    private IEnumerator DoTraversal(List<Directory> path) {
+        for(int i = 0; i < path.Count-1; i++) {
+            LevelManager.instance.workingDir = path[i];
+            path[i].Ping();
+            yield return new WaitForSeconds(timePerJump);
+        }
+
+        LevelManager.instance.workingDir = path[^1];
+        LevelManager.instance.workingDir.Visit();
     }
     
     public GameCommand instantiate(string[] args) {

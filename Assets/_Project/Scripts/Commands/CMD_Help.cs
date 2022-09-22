@@ -9,7 +9,8 @@ public class CMD_Help : GameCommand
     public string[] args { get; private set; }
     public string shortUsage => "Display available commands";
     public string longUsage => shortUsage;
-
+    public string regularColor = "#00FF00";
+    public string helpHintColor = "#FFCC00";
 
     public CMD_Help()
     {
@@ -30,9 +31,11 @@ public class CMD_Help : GameCommand
         Array.Sort(commandNames);
         CommandLineManager.PrintMessage("Available commands:");
 
-        foreach(string commandName in commandNames)
-        {
-            CommandLineManager.PrintMessage($"<color=#00FF00>{commandName}</color>\t {CommandLineManager.instance.commandDict[commandName].shortUsage}");
+        foreach(string commandName in commandNames) {
+            string commandColor = CommandLineManager.instance.hintCommands.Contains(commandName)
+                ? helpHintColor
+                : regularColor;
+            CommandLineManager.PrintMessage($"<color={commandColor}>{commandName}</color>\t {CommandLineManager.instance.commandDict[commandName].shortUsage}");
         }
 
         return 0;

@@ -1,6 +1,8 @@
-﻿Lift> I got you some new tools for this fancy corpo filesystem
+﻿Lift> woah, this is a weird file system
+Lift> I think that circle is a directory
+Lift> one sec, I think I know where to get some tools to help you explore...
 <color=#00FFFF>[Loaded program: list]</color>
 <color=#00FFFF>[Loaded program: navigate]</color>
 <color=#00FFFF>[Loaded program: read]</color>
-
 Lift> these should help you fumble around in the dark.
+Lift> maybe start by listing the directories that are connected to this one.

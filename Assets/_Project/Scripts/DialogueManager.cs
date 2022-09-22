@@ -63,13 +63,17 @@ public class DialogueManager : MonoBehaviour
         if (clear) {
             dialogueOutputField.text = "";
         }
-        
-        StartCoroutine(PrintDialogue($"<color=#{ColorUtility.ToHtmlStringRGB(transmissionMessageColor)}>[Incoming message]</color>"));
+
+        PrintDialogue($"<color=#{ColorUtility.ToHtmlStringRGB(transmissionMessageColor)}>[Incoming message]</color>");
         string[] lines = textAsset.text.Split('\n', System.StringSplitOptions.RemoveEmptyEntries);
+        float lastWaitTime = 0;
         for(int i = 0; i < lines.Length; i++)
         {
             string line = lines[i];
-            float waitTime = line.Length * timePerCharacter;
+            float thisWaitTime = line.Length * timePerCharacter;
+            float waitTime = Mathf.Max(thisWaitTime, lastWaitTime);
+            lastWaitTime = thisWaitTime;
+            
             string[] splitLine = line.Split(' ');
             if (splitLine[0].EndsWith('>'))
             {
@@ -80,18 +84,22 @@ public class DialogueManager : MonoBehaviour
 
 
             yield return new WaitForSeconds(waitTime);  // Wait before printing, the other character is typing
-            StartCoroutine(PrintDialogue(line));
+            PrintDialogue(line);
         }
 
         yield return new WaitForSeconds(2f);
-        StartCoroutine(PrintDialogue($"<color=#{ColorUtility.ToHtmlStringRGB(transmissionMessageColor)}>[Transmission ended]</color>"));
+        PrintDialogue($"<color=#{ColorUtility.ToHtmlStringRGB(transmissionMessageColor)}>[Transmission ended]</color>");
     }
 
-    private IEnumerator PrintDialogue(string message)
+    private IEnumerator PrintDialogueInternal(string message)
     {
         dialogueOutputField.text += '\n' + message;
         yield return 0;
         dialogueScrollRect.normalizedPosition = Vector2.zero;
+    }
+
+    public static void PrintDialogue(string message) {
+        instance.StartCoroutine(instance.PrintDialogueInternal(message));
     }
 
 }

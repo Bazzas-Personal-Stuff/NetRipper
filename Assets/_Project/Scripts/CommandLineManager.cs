@@ -9,6 +9,8 @@ public class CommandLineManager : MonoBehaviour
 
     public static CommandLineManager instance;
 
+    public CommandLoader startingCommands;
+    
     public Dictionary<string, GameCommand> commandDict = new();
 
     public Queue<GameCommand> commandQueue = new();
@@ -20,7 +22,8 @@ public class CommandLineManager : MonoBehaviour
     public TMP_InputField cliInputField;
     public TMP_Text cliOutputField;
     public ScrollRect cliScrollRect;
-
+    public Color echoColor;
+    public HashSet<string> hintCommands = new();
 
 
     // Register commands here
@@ -68,30 +71,33 @@ public class CommandLineManager : MonoBehaviour
 
 
     private void Start() {
-        string[] startingCommands = new[] {
-            "help",
-            "helloworld",
-            "clear",
-            "manual",
-            "connect",
-            "disconnect",
-        };
         
-        LoadCommand(startingCommands);
+        LoadCommand(startingCommands, false);
         
         //SubmitCommand("os_welcome");
-        SubmitSilentCommand("echo <color=#797979>NetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
+        SubmitSilentCommand("echo <color=#797979>Orb CyberDeck Solutions\nNetWeaver OS v3.4.1\nWelcome! Use the \"help\" command to see your available programs.</color>");
         SubmitCommand("echo on");
 
     }
 
-    public void LoadCommand(string[] commandNames) {
+
+    public void LoadCommand(CommandLoader commandLoader, bool hint = true) {
+        LoadCommand(commandLoader.commands, hint);
+    }
+
+    private void LoadCommand(string[] commandNames, bool hint = true) {
+        if (hint) {
+            hintCommands.Clear();
+        }
         foreach (string s in commandNames) {
+            if (hint) {
+                hintCommands.Add(s);
+            }
             LoadCommand(s);
         }
     }
   
-    public void LoadCommand(string commandName)
+    private void LoadCommand(string commandName)
     {
         if (allGameCommands.ContainsKey(commandName))
         {
@@ -190,7 +196,7 @@ public class CommandLineManager : MonoBehaviour
                 inString += " " + arg;
             }
 
-            PrintMessage(inString);
+            PrintMessage($"<color=#{ColorUtility.ToHtmlStringRGB(echoColor)}>{inString}</color>");
         }
         
         curCommand.Execute();

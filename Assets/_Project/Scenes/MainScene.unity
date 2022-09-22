@@ -1187,7 +1187,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -1662,7 +1662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
+  m_RenderShadows: 0
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
@@ -1673,7 +1673,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -3258,8 +3258,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1154849217}
   - component: {fileID: 1154849220}
-  - component: {fileID: 1154849219}
   - component: {fileID: 1154849218}
+  - component: {fileID: 1154849221}
   m_Layer: 0
   m_Name: IntroAnimation
   m_TagString: Untagged
@@ -3324,7 +3324,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &1154849219
+--- !u!114 &1154849220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154849216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73da0f0b6a1745f479d51c76f7e39464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  retroMat: {fileID: 2100000, guid: de1625b6904d456468a4612fc66666bb, type: 2}
+  distortionStrength: 0
+  materialBrightness: 0
+  staticStrength: 0
+--- !u!95 &1154849221
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -3344,24 +3360,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1154849220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154849216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73da0f0b6a1745f479d51c76f7e39464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  retroMat: {fileID: 0}
-  testAnimClip: {fileID: 0}
-  testAnim: {fileID: 0}
-  scrollStatic: 0
-  distortionStrength: 0
-  materialBrightness: 0
 --- !u!1 &1178256072
 GameObject:
   m_ObjectHideFlags: 0

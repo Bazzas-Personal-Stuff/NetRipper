@@ -41,7 +41,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator Start() {
         LevelManager.instance.onDisconnect.AddListener(OnDisconnect);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(7);
         RunDialogue(0);
     }
 

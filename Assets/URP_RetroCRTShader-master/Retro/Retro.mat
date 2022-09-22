@@ -44,7 +44,7 @@ Material:
     - CRT_WARP: 0
     - DISTORT: 1
     - RGB_STRIPES: 0
-    - SCROLL_STATIC: 0
+    - SCROLL_STATIC: 1
     - STATIC: 1
     - Vector1_1BFF6B46: 256
     - Vector1_5660967D: 1.45

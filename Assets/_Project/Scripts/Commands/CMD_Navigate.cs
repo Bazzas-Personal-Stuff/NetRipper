@@ -76,6 +76,7 @@ public class CMD_Navigate : GameCommand
     private IEnumerator DoTraversal(List<Directory> path) {
         for(int i = 0; i < path.Count-1; i++) {
             LevelManager.instance.workingDir = path[i];
+            LevelManager.instance.UpdatePlayerPos();
             path[i].Ping();
             yield return new WaitForSeconds(timePerJump);
         }

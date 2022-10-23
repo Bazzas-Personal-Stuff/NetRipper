@@ -1,6 +1,6 @@
 # NetRipper
 
-https://bazzagibbs.itch.io/netripper
+Play here: https://bazzagibbs.itch.io/netripper
 
 ## References
 https://www.dafont.com/perfect-dos-vga-437.font
